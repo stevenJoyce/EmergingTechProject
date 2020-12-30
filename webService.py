@@ -1,18 +1,11 @@
-#https://www.tornadoweb.org/en/stable/
-import tornado.ioloop
-import tornado.web
+# import the flask web service
+import flask as fk
 
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("Demo for Project 2020")
+# Create a new web app.
+app = fk.Flask(__name__)
 
-def make_app():
-    return tornado.web.Application([
-        (r"/", MainHandler),
-    ])
-
-if __name__ == "__main__":
-    app = make_app()
-    app.listen(8888)
-    tornado.ioloop.IOLoop.current().start()
+# Add route to the root ('/') location, that calls the "hello_world()" function.
+@app.route('/')
+def hello_world():
+    return "Hello world!"
 
