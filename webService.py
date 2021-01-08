@@ -1,11 +1,22 @@
-# import the flask web service
-import flask as fk
+import numpy as np
+import flask as fl
+import tensorflow.keras as kr
+from flask import jsonify
 
-# Create a new web app.
-app = fk.Flask(__name__)
+app = fl.Flask(__name__)
 
-# Add route to the root ('/') location, that calls the "hello_world()" function.
-@app.route('/')
-def hello_world():
-    return "Hello world!"
+# Set default route
+@app.route("/")
+def home():
+    return app.send_static_file('index.html')
+
+@app.route("/api/power/<speed>")
+def power(speed):
+    loaded_model = kr.models.load_model('model.h5')
+    speed = float(speed)
+    result = loaded_model.predict([speed])
+    return jsonify({"value":result.item(0)})
+
+if __name__ == "__main__":
+    print("See README for instructions on running the application.")
 
