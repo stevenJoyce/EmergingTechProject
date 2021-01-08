@@ -10,13 +10,13 @@ app = fl.Flask(__name__)
 def home():
     return app.send_static_file('index.html')
 
-@app.route("/api/power/<speed>")
-def power(speed):
-    loaded_model = kr.models.load_model('model.h5')
-    speed = float(speed)
-    result = loaded_model.predict([speed])
+#recieve the user input with var input
+#call in the model and use model.predict with the user input to generate a result
+# output the result
+@app.route("/api/predict/<speed>")
+def power(input):
+    model = kr.models.load_model('datamodel.h5')
+    input = float(input)
+    result = model.predict([input])
+    print(result)
     return jsonify({"value":result.item(0)})
-
-if __name__ == "__main__":
-    print("See README for instructions on running the application.")
-
